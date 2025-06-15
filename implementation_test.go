@@ -141,6 +141,26 @@ func TestPostfixToInfixErrors(t *testing.T) {
 			input:    "2 +",
 			hasError: true,
 		},
+		{
+			name:     "Too many operands",
+			input:    "2 3 4 +",
+			hasError: true,
+		},
+		{
+			name:     "Invalid token",
+			input:    "2 abc +",
+			hasError: true,
+		},
+		{
+			name:     "Only operator",
+			input:    "+",
+			hasError: true,
+		},
+		{
+			name:     "Only operand",
+			input:    "42",
+			hasError: false,
+		},
 	}
 
 	for _, tt := range tests {
