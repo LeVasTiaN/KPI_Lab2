@@ -89,3 +89,38 @@ func TestComputeHandler_Compute(t *testing.T) {
 		})
 	}
 }
+
+func TestComputeHandler_ComputeWithDifferentInputs(t *testing.T) {
+	expressions := []string{
+		"3 4 +",
+		"5 2 -",
+		"6 3 /",
+	}
+
+	expectedOutputs := []string{
+		"(3 + 4)",
+		"(5 - 2)",
+		"(6 / 3)",
+	}
+
+	for i, expr := range expressions {
+		t.Run("Expression_"+expr, func(t *testing.T) {
+			input := strings.NewReader(expr)
+			var output bytes.Buffer
+
+			handler := &ComputeHandler{
+				Input:  input,
+				Output: &output,
+			}
+
+			err := handler.Compute()
+			if err != nil {
+				t.Errorf("Unexpected error: %v", err)
+			}
+
+			if output.String() != expectedOutputs[i] {
+				t.Errorf("Expected %q, got %q", expectedOutputs[i], output.String())
+			}
+		})
+	}
+}
