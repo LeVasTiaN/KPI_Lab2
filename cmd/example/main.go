@@ -23,5 +23,49 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println("CLI app structure ready")
+	var inputReader *strings.Reader
+	var inputFileHandle *os.File
+	var err error
+
+	if *inputExpression != "" {
+		inputReader = strings.NewReader(*inputExpression)
+	} else {
+		inputFileHandle, err = os.Open(*inputFile)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error opening input file: %v\n", err)
+			os.Exit(1)
+		}
+		defer inputFileHandle.Close()
+	}
+
+	var outputWriter *os.File
+	if *outputFile != "" {
+		outputWriter, err = os.Create(*outputFile)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error creating output file: %v\n", err)
+			os.Exit(1)
+		}
+		defer outputWriter.Close()
+	} else {
+		outputWriter = os.Stdout
+	}
+
+	var handler *lab2.ComputeHandler
+	if inputReader != nil {
+		handler = &lab2.ComputeHandler{
+			Input:  inputReader,
+			Output: outputWriter,
+		}
+	} else {
+		handler = &lab2.ComputeHandler{
+			Input:  inputFileHandle,
+			Output: outputWriter,
+		}
+	}
+
+	err = handler.Compute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error processing expression: %v\n", err)
+		os.Exit(1)
+	}
 }
