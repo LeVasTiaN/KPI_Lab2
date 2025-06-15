@@ -183,5 +183,5 @@ func ExamplePostfixToInfix() {
 	res, _ := PostfixToInfix("2 3 +")
 	fmt.Println(res)
 	// Output:
-	// 5
+	// (2 + 3)
 }
