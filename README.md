@@ -8,3 +8,11 @@
 - Лаврик Севастьян
 - Гордієнко Роман
 - Ухалов Олексій
+
+## Приклад невдалої збірки:
+
+https://github.com/LeVasTiaN/KPI_Lab2/actions/runs/15657994214
+
+## Приклад успішної збірки:
+
+https://github.com/LeVasTiaN/KPI_Lab2/actions/runs/15658205110
